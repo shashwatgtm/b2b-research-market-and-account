@@ -1,0 +1,14 @@
+{
+  "name": "b2b-research-market-and-account",
+  "displayName": "B2B Research: Market and Account",
+  "version": "1.0.0",
+  "description": "Research target accounts and build, audit or enrich ABM lists with a one account brief, probe questions and verified and unverified lists; turn reports and surveys into research assets, white papers, case studies and benchmarks with every number locked to its source; fact check every claim, screenshot and date before you publish; and judge another AI model's critique point by point to one final version.",
+  "author": {
+    "name": "Shashwat Ghosh",
+    "url": "https://gtmexpert.com"
+  },
+  "homepage": "https://github.com/shashwatgtm/b2b-research-market-and-account",
+  "repository": "https://github.com/shashwatgtm/b2b-research-market-and-account",
+  "license": "MIT",
+  "keywords": ["market-research", "account-research", "abm", "account-based-marketing", "icp", "list-enrichment", "fact-check", "fact-checking", "claims", "research-report", "white-paper", "case-study", "benchmark", "second-opinion", "ai-review", "b2b"]
+}
