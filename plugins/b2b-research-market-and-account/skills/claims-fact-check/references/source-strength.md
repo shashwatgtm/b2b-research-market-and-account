@@ -21,6 +21,8 @@ Say so plainly ("the About page did not render the user count in the fetch"), le
 | A survey of consumers | a claim about business buyers | nothing, unless a business source exists |
 | Detections in a vendor's telemetry | "attacks in India" | "detections recorded by [the publisher]" |
 | One example | "customers see" | "one customer reported" |
+| Nothing confirms the count | a range, "about" or "+" | the count from the record, or the placeholder |
+| Nothing on the motive | "X did this to ..." | what X said or did, with its source, and the writer's view labelled as a view, without a motive for X |
 
 ## Recency
 The recency cutoff is set per job by the user (for example "nothing older than a set month" or "this region only"). Ask when it matters and is not given. When a data point fails the cutoff or the region, find a replacement that fits, with its link, or say none was found on the pages opened and the searches run (name them).
@@ -31,4 +33,4 @@ Comparisons hold only between the same product type, region, period and measure.
 ## Counts, dates and names
 - Counts are checked even when the user is sure of them. The user's first hand facts about their own work stand, but a count is still checked against the record or a source.
 - Dates: the weekday next to a date must match the calendar; a document meant to be current must not carry last year's date.
-- Names and titles are copied exactly from the source; never upgraded (prospect is not partner, pilot is not customer, co-founder is not founder).
+- Names and titles are copied exactly from the source; never upgraded (prospect is not partner, pilot is not customer, co-founder is not founder, beta is not generally available, supported is not led, relaunched is not launched).

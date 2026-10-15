@@ -19,8 +19,16 @@ What it reports, per asset:
   - each weekday written next to a date that does not match the calendar
 Then, per lock row, which assets use it.
 
-Years (1900 to 2099 with no unit) and numbers inside dates are skipped. Plain integers up to
---allow-small (default 0) are skipped, for structure such as "Part 2 of 5".
+A minus sign directly before a number makes it negative ("-14.22%" is not "14.22%"): the
+Unicode minus, or an ASCII hyphen that does not follow a digit, a letter, a percent sign or
+a point (so "**-14.22%**", ":-14.22%" and "(-14.22%)" are negative). A hyphen between two
+numbers ("10-12", "12%-14%") is a range, not a sign.
+
+Years (1900 to 2099 with no unit) and numbers inside dates are skipped, except a four digit
+number that equals a lock value or is followed by the word that follows a lock value
+("2024 accounts" next to a lock row "2,024 accounts"): that is a count and is checked.
+Plain integers from 0 up to --allow-small (default 0) are skipped, for structure such as
+"Part 2 of 5".
 
 Exit code: 0 when every number is on the sheet and every weekday is right, 1 otherwise,
 2 when a file could not be read.
@@ -63,8 +71,29 @@ ANY_DATE = [
 ]
 
 
+MINUS = "\u2212"
+
+
+def utf8_output():
+    """Write UTF-8, so a rupee sign, a Unicode minus or a curly quote never stops the script on a Windows console or pipe
+    set to code page 1252 (S2, version 1.0.2). A stream that cannot be reconfigured (a test buffer) is left as it is."""
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8")
+
+
+def _negative(text, start):
+    """True when a minus sign sits directly before the number that starts at start."""
+    if start == 0:
+        return False
+    before = text[start - 1]
+    if before == MINUS:
+        return True
+    return before == "-" and (start == 1 or not (text[start - 2].isalnum() or text[start - 2] in "%."))
+
+
 def parse_value(text):
-    """Return (float, unit) for the first number in text, or None."""
+    """Return (float, unit, currency) for the first number in text, or None."""
     m = NUM.search(text or "")
     if not m:
         return None
@@ -73,6 +102,8 @@ def parse_value(text):
 
 def _from_match(m):
     num = float(m.group("num").replace(",", ""))
+    if _negative(m.string, m.start()):
+        num = -num
     unit = (m.group("unit") or "").lower()
     unit = UNIT_MAP.get(unit, unit)
     cur = (m.group("cur") or "").strip().lower().rstrip(".")
@@ -114,8 +145,11 @@ def read_lock(text):
         pv = parse_value(r["value"])
         if pv is None:
             raise ValueError("lock row %s has no number in value '%s'" % (r["id"], r["value"]))
+        m = NUM.search(r["value"])
+        after = re.match(r"\s*([a-z]+)", r["value"][m.end():], re.I)
         lock.append({"id": r["id"].strip(), "label": r["label"].strip(), "value": r["value"].strip(),
-                     "num": pv[0], "unit": pv[1], "cur": pv[2], "source": r["source"].strip()})
+                     "num": pv[0], "unit": pv[1], "cur": pv[2], "source": r["source"].strip(),
+                     "word": after.group(1).lower() if after else ""})
     return lock
 
 
@@ -127,9 +161,15 @@ def scan_asset(name, text, lock, allow_small=0):
             continue
         num, unit, cur = _from_match(m)
         raw = m.group(0).strip()
+        if num < 0:
+            raw = text[m.start() - 1] + raw
         if not unit and 1900 <= num <= 2099 and float(num).is_integer() and "," not in m.group("num"):
-            continue
-        if not unit and not cur and float(num).is_integer() and num <= allow_small:
+            nxt = re.match(r"\s*([a-z]+)", text[m.end():], re.I)
+            count = any(l["num"] == num and not l["unit"] for l in lock) or bool(
+                nxt and any(l["word"] and l["word"] == nxt.group(1).lower() and not l["unit"] for l in lock))
+            if not count:
+                continue
+        if not unit and not cur and float(num).is_integer() and 0 <= num <= allow_small:
             continue
         exact = [l for l in lock if l["num"] == num and l["unit"] == unit]
         clash = [l for l in exact if cur and l["cur"] and cur != l["cur"]]
@@ -172,6 +212,7 @@ def render(results, lock):
 
 
 def main(argv=None):
+    utf8_output()
     ap = argparse.ArgumentParser(description="Check assets against a number lock sheet.")
     ap.add_argument("--lock", required=True)
     ap.add_argument("assets", nargs="+")

@@ -90,6 +90,95 @@ class NumberLockTests(unittest.TestCase):
             code = nl.main(["--lock", lp, ap])
         self.assertEqual(code, 0)
 
+    # Run 31C, Codex finding F005: a minus sign directly before a number makes it negative
+    def test_minus_sign_is_not_a_match(self):
+        for text in ("-14.22% in one sector.", "Share fell -14.22% this year.", "Share fell −14.22% this year.", "Share (-14.22%) this year."):
+            r = nl.scan_asset("m", text, self.lock)
+            self.assertEqual(r["matched"], [], text)
+            self.assertTrue(any(u.endswith("14.22%") and u[0] in "-−" for u in r["unlocked"]), (text, r))
+
+    def test_hyphen_between_numbers_is_a_range_not_a_sign(self):
+        r = nl.scan_asset("r", "A range of 13-14.22% across sectors.", self.lock)
+        self.assertEqual([m[1] for m in r["matched"]], ["L2"])
+        self.assertEqual(r["unlocked"], ["13"])
+
+    def test_negative_lock_row(self):
+        lock = nl.read_lock("id,label,value,source\nN1,change,-3.5%,https://example.org/r\n")
+        self.assertEqual(lock[0]["num"], -3.5)
+        self.assertEqual([m[1] for m in nl.scan_asset("n", "It moved -3.5% last year.", lock)["matched"]], ["N1"])
+        self.assertEqual(nl.scan_asset("n", "It moved 3.5% last year.", lock)["matched"], [])
+
+    def test_main_minus_sign_exit_1(self):
+        d = tempfile.mkdtemp()
+        lp, ap = os.path.join(d, "lock.csv"), os.path.join(d, "a.md")
+        with open(lp, "w", encoding="utf-8") as fh:
+            fh.write("id,label,value,source\nL1,growth,14.22%,https://example.org/r\n")
+        with open(ap, "w", encoding="utf-8") as fh:
+            fh.write("-14.22%")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            code = nl.main(["--lock", lp, ap])
+        self.assertEqual(code, 1)
+        self.assertNotIn("matched: 14.22%", buf.getvalue())
+
+    # Run 31C auditor gap S1: a minus sign after markup or punctuation is still a sign; after a digit, a letter or a percent sign it is a range
+    def test_minus_after_markup_or_punctuation(self):
+        for text in ("**-14.22%** fell", "growth:-14.22%", '"-14.22%"', "up,-14.22%"):
+            r = nl.scan_asset("p", text, self.lock)
+            self.assertEqual(r["matched"], [], text)
+        rng = nl.scan_asset("p", "between 12%-14.22% by sector", self.lock)
+        self.assertEqual([m[1] for m in rng["matched"]], ["L2"])
+
+    # Run 31C, Codex finding F005 (the year like count): a four digit count is checked against a lock row, not skipped as a year
+    def test_year_like_count_next_to_lock_row(self):
+        lock = nl.read_lock('id,label,value,source\nC1,accounts studied,"2,024 accounts",https://example.org/r\n')
+        same = nl.scan_asset("y", "We studied 2024 accounts.", lock)
+        self.assertEqual([m[1] for m in same["matched"]], ["C1"])
+        typo = nl.scan_asset("y", "We studied 2042 accounts.", lock)
+        self.assertEqual([n[1] for n in typo["near"]], ["C1"])
+        year = nl.scan_asset("y", "In 2026 we studied the market.", lock)
+        self.assertEqual((year["matched"], year["near"], year["unlocked"]), ([], [], []))
+
+
+def _run_cp1252(script_name, args, files):
+    """S2, run 32A: run the script as a user on Windows would, with output set to code page 1252 (a console or pipe)."""
+    import subprocess
+    import tempfile
+    d = tempfile.mkdtemp()
+    paths = []
+    for name, body in files:
+        p = os.path.join(d, name)
+        with open(p, "w", encoding="utf-8") as fh:
+            fh.write(body)
+        paths.append(p)
+    script = os.path.join(os.path.dirname(os.path.abspath(__file__)), script_name)
+    env = dict(os.environ, PYTHONIOENCODING="cp1252")
+    return subprocess.run([sys.executable, script] + [a.format(*paths) for a in args], capture_output=True, env=env)
+
+
+class CodePage1252Tests(unittest.TestCase):
+    """S2, run 32A: a character outside plain ASCII (rupee sign, Unicode minus, curly quotes) is written as UTF-8 and the
+    script never stops with an encoding error on a Windows console or pipe set to code page 1252."""
+
+    def assert_utf8_output(self, p, expected):
+        self.assertNotIn(b"Traceback", p.stderr, p.stderr.decode("utf-8", "replace"))
+        self.assertNotIn(b"UnicodeEncodeError", p.stderr)
+        self.assertIn(p.returncode, (0, 1))
+        self.assertIn(expected.encode("utf-8"), p.stdout)
+
+    def test_rupee_minus_and_quotes(self):
+        p = _run_cp1252("number_lock.py", ["--lock", "{0}", "{1}"],
+                        [("lock.csv", "id,label,value,source\nL1,revenue,Rs 51.4 crore,https://example.org/f\nL2,change,14.22%,https://example.org/g\n"),
+                         ("asset.txt", "Revenue \u20b951.4 crore, a change of \u221214.22% \u201cas filed\u201d.\n")])
+        self.assert_utf8_output(p, "\u20b951.4 crore")
+        self.assertIn("\u221214.22%".encode("utf-8"), p.stdout)
+
+    def test_rupee_json(self):
+        p = _run_cp1252("number_lock.py", ["--lock", "{0}", "{1}", "--json"],
+                        [("lock.csv", "id,label,value,source\nL1,revenue,Rs 51.4 crore,https://example.org/f\n"),
+                         ("asset.txt", "Revenue \u20b951.4 crore.\n")])
+        self.assert_utf8_output(p, "\u20b951.4 crore")
+
 
 if __name__ == "__main__":
     unittest.main()

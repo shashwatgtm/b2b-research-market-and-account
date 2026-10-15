@@ -15,8 +15,15 @@ Inputs:
 
 Scoring: a yes with a public link earns the criterion's points; a yes without a link earns 0
 and is listed as a problem; no and not found earn 0. A company missing a row for any
-criterion is listed as not fully scored. Companies are sorted by score, then by name, so the
-same input always prints the same table.
+criterion is listed as not fully scored. Companies are sorted by score, then by name, and the
+tiers are always listed publishable, directional, anecdotal, so the same input always prints
+the same table and the same --json.
+
+Problems also include: points that are not a finite number (NaN or Infinity count as 0), the
+same criterion_id twice in the criteria (the first row is kept, never silently replaced), no
+criteria, no evidence rows, points too large to add up (they count as 0), and a row with a
+missing cell. --json prints strict JSON (no NaN or Infinity). Negative points are accepted as
+written.
 
 Exit code: 0 when every company is fully scored with no problem, 1 otherwise, 2 when a file
 could not be read.
@@ -25,10 +32,19 @@ import argparse
 import csv
 import io
 import json
+import math
 import sys
 
 ANSWERS = {"yes", "no", "not found"}
-TIERS = {"publishable", "directional", "anecdotal"}
+TIERS = ("publishable", "directional", "anecdotal")   # a fixed order, so --json prints the same bytes every run
+
+
+def utf8_output():
+    """Write UTF-8, so a rupee sign, a Unicode minus or a curly quote never stops the script on a Windows console or pipe
+    set to code page 1252 (S2, version 1.0.2). A stream that cannot be reconfigured (a test buffer) is left as it is."""
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8")
 
 
 def load(text, need):
@@ -42,19 +58,33 @@ def load(text, need):
 def score(criteria_rows, evidence_rows, publishable_only=False, min_per_cut=0):
     problems = []
     crit = {}
+    if not criteria_rows:
+        problems.append("no criteria: fix the criteria before any company is scored")
+    if not evidence_rows:
+        problems.append("no evidence rows: nothing was scored")
     for r in criteria_rows:
-        cid = r["criterion_id"].strip()
+        cid = (r.get("criterion_id") or "").strip()
+        if cid in crit:
+            problems.append("criterion %s appears twice in the criteria; the first row is kept, give each criterion its own id" % cid)
+            continue
         try:
-            crit[cid] = float(r["points"])
+            crit[cid] = float(r.get("points") or "")
         except ValueError:
-            problems.append("criterion %s: points '%s' is not a number" % (cid, r["points"]))
+            problems.append("criterion %s: points '%s' is not a number" % (cid, r.get("points") or ""))
             crit[cid] = 0.0
+            continue
+        if not math.isfinite(crit[cid]):
+            problems.append("criterion %s: points '%s' is not a finite number; it counts as 0" % (cid, r["points"]))
+            crit[cid] = 0.0
+    if not math.isfinite(sum(abs(v) for v in crit.values())):
+        problems.append("the points are too large to add up; use smaller points (every criterion counts as 0 until then)")
+        crit = {k: 0.0 for k in crit}
     companies = {}
     cuts = {}
     for i, r in enumerate(evidence_rows, 2):
-        comp = r["company"].strip()
-        cid = r["criterion_id"].strip()
-        ans = r["answer"].strip().lower()
+        comp = (r.get("company") or "").strip()
+        cid = (r.get("criterion_id") or "").strip()
+        ans = (r.get("answer") or "").strip().lower()
         tier = (r.get("tier") or "").strip().lower()
         src = (r.get("source") or "").strip()
         c = companies.setdefault(comp, {"score": 0.0, "seen": set(), "tiers": {t: 0 for t in TIERS}})
@@ -114,6 +144,7 @@ def render(res):
 
 
 def main(argv=None):
+    utf8_output()
     ap = argparse.ArgumentParser(description="Score companies against a fixed set of yes or no criteria.")
     ap.add_argument("--criteria", required=True)
     ap.add_argument("--evidence", required=True)
@@ -130,7 +161,7 @@ def main(argv=None):
         print("Could not read: %s" % e)
         return 2
     res = score(criteria, evidence, a.publishable_only, a.min_per_cut)
-    print(json.dumps(res, indent=2) if a.json else render(res))
+    print(json.dumps(res, indent=2, allow_nan=False) if a.json else render(res))
     return 1 if (res["problems"] or res["low_cuts"]) else 0
 
 

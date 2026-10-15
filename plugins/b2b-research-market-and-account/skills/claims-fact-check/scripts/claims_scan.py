@@ -78,6 +78,14 @@ PATTERNS = [
 ]
 
 
+def utf8_output():
+    """Write UTF-8, so a rupee sign, a Unicode minus or a curly quote never stops the script on a Windows console or pipe
+    set to code page 1252 (S2, version 1.0.2). A stream that cannot be reconfigured (a test buffer) is left as it is."""
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8")
+
+
 def split_sentences(text):
     parts = []
     for block in re.split(r"\n\s*\n|\n(?=\s*[-*\d]+[.)]?\s)|\n", text):
@@ -246,6 +254,7 @@ def render(result):
 
 
 def main(argv=None):
+    utf8_output()
     ap = argparse.ArgumentParser(description="Seed a claims register and check dates, weekdays and dashes.")
     ap.add_argument("path", help="text file to scan, or - for standard input")
     ap.add_argument("--year", type=int, help="the current year; dates in earlier years are flagged for a look")

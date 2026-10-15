@@ -105,5 +105,41 @@ class ClaimsScanTests(unittest.TestCase):
         self.assertIn("Could not read", buf.getvalue())
 
 
+def _run_cp1252(script_name, args, files):
+    """S2, run 32A: run the script as a user on Windows would, with output set to code page 1252 (a console or pipe)."""
+    import subprocess
+    import tempfile
+    d = tempfile.mkdtemp()
+    paths = []
+    for name, body in files:
+        p = os.path.join(d, name)
+        with open(p, "w", encoding="utf-8") as fh:
+            fh.write(body)
+        paths.append(p)
+    script = os.path.join(os.path.dirname(os.path.abspath(__file__)), script_name)
+    env = dict(os.environ, PYTHONIOENCODING="cp1252")
+    return subprocess.run([sys.executable, script] + [a.format(*paths) for a in args], capture_output=True, env=env)
+
+
+class CodePage1252Tests(unittest.TestCase):
+    """S2, run 32A: a character outside plain ASCII (rupee sign, Unicode minus, curly quotes) is written as UTF-8 and the
+    script never stops with an encoding error on a Windows console or pipe set to code page 1252."""
+
+    def assert_utf8_output(self, p, expected):
+        self.assertNotIn(b"Traceback", p.stderr, p.stderr.decode("utf-8", "replace"))
+        self.assertNotIn(b"UnicodeEncodeError", p.stderr)
+        self.assertIn(p.returncode, (0, 1))
+        self.assertIn(expected.encode("utf-8"), p.stdout)
+
+    def test_rupee_and_quotes(self):
+        p = _run_cp1252("claims_scan.py", ["{0}"], [("d.txt", "Revenue was \u20b951.4 crore, \u221214% on the year, \u201cbest in class\u201d.\n")])
+        self.assert_utf8_output(p, "\u20b951.4 crore")
+
+    def test_rupee_json(self):
+        p = _run_cp1252("claims_scan.py", ["{0}", "--json"], [("d.txt", "Revenue was \u20b951.4 crore in 2026.\n")])
+        self.assertNotIn(b"Traceback", p.stderr, p.stderr.decode("utf-8", "replace"))
+        self.assertIn(p.returncode, (0, 1))
+
+
 if __name__ == "__main__":
     unittest.main()

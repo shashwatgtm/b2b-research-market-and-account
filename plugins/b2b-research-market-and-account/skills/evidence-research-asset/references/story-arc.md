@@ -15,8 +15,9 @@ A research asset is read for its story; the numbers prove it. Choose the story f
 - One theme per page or post. A series splits the beats across posts; each post still stands on its own with its source.
 - The headline never says more than the data. If the data shows a share of detections, the headline does not say "risk", "losses" or "attacks" unless the source does.
 - No catastrophe openers and no fear selling. Inform and create curiosity; do not shout.
-- The beats are tested before drafting: write each beat as one line with its lock sheet id. A beat with no id is cut or turned into a question.
+- The beats are tested before drafting: write each beat as one line with its lock sheet id. A beat with no id is cut or turned into a question; a beat that rests on words, not a number, carries its short exact quote, where it was found and the date instead (topline-and-number-lock.md, section 2b), or it is cut or labelled as the writer's view.
 - If the user's preferred story is not in the data, say so plainly and offer the story the data supports.
+- A benchmark enters the story only next to the finding it is compared with, like for like (topline-and-number-lock.md, section 2).
 - Modify the best existing version rather than rebuilding from scratch when the user is iterating.
 
 ## Example beat sheet (shape only; the ids point to a lock sheet)

@@ -29,10 +29,11 @@ Report: kept, removed (with reason), unsure (with what would settle it).
 ## Enrichment
 - Fixed field blocks per account, agreed before starting. Typical blocks: firmographics, technographics, organisation, situation, and the people block only for the designations the user named. Do not enrich roles the user did not ask for.
 - Same designations across every company; include partial information where that is all there is, marked partial.
+- When the account's own pages or the evidence show that the role, team or segment the user asked about does not exist there, or sits under another title, say so in one line and name what was found, with its source. Never map it silently to the user's term.
 - Work in batches of 3 to 5 accounts for long lists, with a running count ("12 of 40 covered"). Never stop at a subset and call it done.
 - Every field has a value or "not found", a source, a status and a checked date.
 - Raw data when the user asks for raw data: the fields, no commentary.
 - Periods: when a field is periodic (results, headcount), state the period; use the latest published period, and a newer one only "if it has been published".
 
 ## Coverage rule
-Every account on the user's list gets rows, including "not found" rows. Before saying the work is done, run scripts/account_list_check.py and show the coverage line. If time or tools run out, say exactly which accounts are not covered yet.
+Every account on the user's list gets rows, including "not found" rows. Before saying the work is done, run scripts/account_list_check.py and show the coverage line; it also reports an empty list, a table with no rows, a verified or unverified row with no value, and a row with no field name. If time or tools run out, say exactly which accounts are not covered yet. For enrichment across many accounts, show the source tally (source-and-verification.md) with the two lists.
