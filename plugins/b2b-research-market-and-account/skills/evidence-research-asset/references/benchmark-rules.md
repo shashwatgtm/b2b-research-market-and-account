@@ -14,13 +14,14 @@ A benchmark scores many companies on public signals and publishes what it finds.
 
 ## 3. Score by script, the same way every run
 - Evidence goes into a table: company, criterion, answer (yes, no, not found), source link, evidence tier, cut.
-- `python3 scripts/benchmark_score.py --criteria criteria.csv --evidence evidence.csv` (use `python` where `python3` is not found, as on Windows) scores it. A yes without a public link scores zero. The output is sorted by score and name, so the same input always gives the same table. It reports points that are not a finite number, a criterion id used twice (the first row is kept, never replaced), and a run with no criteria or no evidence rows; `--json` prints strict JSON.
+- `python3 scripts/benchmark_score.py --criteria criteria.csv --evidence evidence.csv` (use `python` where `python3` is not found, as on Windows) scores it. A yes without a public link scores zero. The output is sorted by score and name, so the same input always gives the same table. It reports points that are not a finite number, a criterion id used twice (the first row is kept, never replaced), and a run with no criteria or no evidence rows; `--json` prints strict JSON, with the tiers always in the order publishable, directional, anecdotal.
 - Never estimate a score, never score from memory, and never score a company that was not looked up in this session.
 - When every company, or every criterion inside a company, gets the same answer or the same score, say so before reporting: tied scores can mean the criteria do not tell the companies apart. Review the criteria with the user before publishing, and never draw a ranking, a "fix first" item or a strength from tied scores.
 
 ## 4. Verify every company by search
 - Confirm each company exists under that name, its website is the right one, and it fits the sample's definition (region, vertical, size), with a link. A company that cannot be verified is dropped and listed as dropped.
 - When a source the user called core cannot be reached, say so by URL and use only the fallbacks the user names; never drop it or swap in another site without the user's word.
+- A confirmation or a "yes" that rests only on a search result (the page itself not opened) carries "from a search result, page not opened" in its source cell, is at most directional, and is never reported as a finding or counted as a second source (the claim ledger, references/claim-ledger.md).
 
 ## 5. Evidence tiers
 | Tier | Meaning | How it is reported |

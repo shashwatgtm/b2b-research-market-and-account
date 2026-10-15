@@ -9,7 +9,7 @@
     {
       "name": "b2b-research-market-and-account",
       "source": "./plugins/b2b-research-market-and-account",
-      "version": "1.0.2",
+      "version": "1.0.5",
       "description": "Research target accounts with verified and unverified lists, build research assets with numbers locked to the source, fact check every claim before it goes out, and judge another model's critique point by point."
     }
   ]

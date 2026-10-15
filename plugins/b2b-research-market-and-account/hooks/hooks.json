@@ -1,0 +1,16 @@
+{
+  "description": "Delivery check for this plugin's skills: account-research, claims-fact-check, evidence-research-asset, second-opinion-review; when one of them ran its claim ledger in the current turn, the reply Claude sends must be exactly the text the ledger last checked (claim_ledger.py check --final). Reads the hook input and the session transcript on this computer; writes nothing, sends nothing.",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -I \"${CLAUDE_PLUGIN_ROOT}/hooks/delivery_check.py\" || python -I \"${CLAUDE_PLUGIN_ROOT}/hooks/delivery_check.py\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
