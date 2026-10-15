@@ -10,5 +10,8 @@
   "homepage": "https://github.com/shashwatgtm/b2b-research-market-and-account",
   "repository": "https://github.com/shashwatgtm/b2b-research-market-and-account",
   "license": "MIT",
+  "documentationUrl": "https://github.com/shashwatgtm/b2b-research-market-and-account#readme",
+  "supportUrl": "https://github.com/shashwatgtm/b2b-research-market-and-account/issues",
+  "privacyPolicyUrl": "https://tools.gtmhelix.com/privacy/",
   "keywords": ["market-research", "account-research", "abm", "account-based-marketing", "icp", "list-enrichment", "fact-check", "fact-checking", "claims", "research-report", "white-paper", "case-study", "benchmark", "second-opinion", "ai-review", "b2b"]
 }
