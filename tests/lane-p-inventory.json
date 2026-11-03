@@ -1,0 +1,57 @@
+{
+  "skills": [
+    {
+      "repo": "b2b-research-market-and-account",
+      "path": "plugins/b2b-research-market-and-account/skills/claims-fact-check/SKILL.md",
+      "before_sha256": "b0eef2f639c281998bc1aa697acb209c5f9dee44f1512fb687307665a47805e3",
+      "after_sha256": "710bf6e88e212065f626c4ce97c8b31f6fa8478b79ee2afa47aa77e339932fe0",
+      "frontmatter_sha256": "ff05fe41200b0f5e4eb30b4f90e2655406b3bfaa97b3ab2ef36a64195c23b511",
+      "reference_sha256": "48e5917aecb374a4dfd467a5a74a066c1061c275d6110cc51b36a4860fe0bd8e"
+    },
+    {
+      "repo": "b2b-research-market-and-account",
+      "path": "plugins/b2b-research-market-and-account/skills/evidence-research-asset/SKILL.md",
+      "before_sha256": "7d3a3a7b9950d9addcc84401f621caddc373cc258dc3bb13bcc43c467bdea64d",
+      "after_sha256": "16621bdb6719ddb93540b5eca19bcf3b148c763953246fd0ce611e30204b9fe3",
+      "frontmatter_sha256": "550717d747211bcf6a8954ac870682d4f9d7267443ac6705e2ee13839a4de6f7",
+      "reference_sha256": "48e5917aecb374a4dfd467a5a74a066c1061c275d6110cc51b36a4860fe0bd8e"
+    },
+    {
+      "repo": "b2b-research-market-and-account",
+      "path": "plugins/b2b-research-market-and-account/skills/account-research/SKILL.md",
+      "before_sha256": "ddaa8503a57e2597b5155df1f5b4b8e6246d7bc44a0703acda60570654b392fe",
+      "after_sha256": "1ee79b71d97ba61e1c4ed023a530c3e225fea0bf21f6cb3d99af08aad538db64",
+      "frontmatter_sha256": "fa264fa6a05addc5e87cf9ec920da70414afafe57848be61449ec4e9cdf255f2",
+      "reference_sha256": "48e5917aecb374a4dfd467a5a74a066c1061c275d6110cc51b36a4860fe0bd8e"
+    },
+    {
+      "repo": "b2b-research-market-and-account",
+      "path": "plugins/b2b-research-market-and-account/skills/second-opinion-review/SKILL.md",
+      "before_sha256": "f72cbc2e8aed55f32da86aee6fd8c41f539264fd3e555d28a50648c683279948",
+      "after_sha256": "ed2e10102c4fb429b7737ca40fdd1be0286703ca6cbab96e3aa33ab24d1a378c",
+      "frontmatter_sha256": "7fd7ccc1e4f2d2359ad8325998e529945d231478c31ecb7f27cafc319df4d0e5",
+      "reference_sha256": "48e5917aecb374a4dfd467a5a74a066c1061c275d6110cc51b36a4860fe0bd8e"
+    }
+  ],
+  "tools": {
+    "alpha": [
+      "gtm_consultation",
+      "epic_audit",
+      "generate_roadmap"
+    ],
+    "revenue": [
+      "account_plan_builder",
+      "deal_strategy_coach",
+      "discovery_question_bank",
+      "roi_business_case_builder",
+      "mutual_action_plan_generator",
+      "win_loss_analyzer",
+      "proposal_section_writer",
+      "email_sequence_generator",
+      "demo_script_builder",
+      "pricing_negotiation_guide",
+      "champion_enablement_kit",
+      "competitive_trap_setter"
+    ]
+  }
+}
