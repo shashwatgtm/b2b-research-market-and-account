@@ -4,13 +4,13 @@
     "name": "Shashwat Ghosh",
     "url": "https://github.com/shashwatgtm"
   },
-  "description": "Research skills for B2B teams by Shashwat Ghosh, Helix GTM Consulting: account research, evidence led research assets, claims fact checks and second opinion reviews.",
+  "description": "Research skills for B2B teams by Shashwat Ghosh, Helix GTM Consulting, to decide which accounts to target and what is safe to publish: account research, evidence led research assets, claims fact checks and second opinion reviews.",
   "plugins": [
     {
       "name": "b2b-research-market-and-account",
       "source": "./plugins/b2b-research-market-and-account",
       "version": "1.0.6",
-      "description": "Research target accounts with verified and unverified lists, build research assets with numbers locked to the source, fact check every claim before it goes out, and judge another model's critique point by point."
+      "description": "For B2B teams who need facts they can defend: decide which accounts to target, which numbers to publish and whether a draft is safe to send. Get account lists and briefs with verified and unverified fields, research assets with numbers locked to the source, a claims check before anything goes out, and a point by point judgement of another model's critique."
     }
   ]
 }

@@ -1,19 +1,16 @@
 ---
 name: evidence-research-asset
 description: >
-  Builds B2B research assets where every number cites its source: data led
-  post series, briefs, reports, decks, benchmark studies, white paper outlines
-  and case studies, plus a three lens white paper review. It checks each
-  statistic against the publisher's own topline before building, locks numbers
-  across every asset by script, puts the story first (myth, truth, dominance,
-  twist, verdict) and changes it when the data does not fit, scores benchmarks
-  by a fixed scoring method and script, publishes data ungated, never invents a metric
-  or quote, and checks each platform's paste and render limits. Use when
-  someone says "turn this report into posts", "research report", "research
-  brief", "data led content", "benchmark study", "score these companies",
-  "white paper", "review my white paper", "case study", "customer story",
-  "evidence tiers", "number lock", "make
-  the numbers match across assets" or "check the data points before we
+  Helps a B2B team decide which numbers it can publish and turn them into research content that
+  holds up. For product marketers, content leads and strategy teams. You give it published reports,
+  surveys or your own data. You get data led post series, briefs, reports, decks, benchmark studies
+  (scored by a fixed method and script), white paper outlines or case studies where every number
+  cites its source, is checked against the publisher's topline and is locked across every asset by
+  script, plus a three lens white paper review. The story comes first and changes when the data does
+  not fit; it never invents a metric or quote. Use when someone says "turn this report into posts",
+  "research report", "research brief", "data led content", "benchmark study", "score these
+  companies", "white paper", "review my white paper", "case study", "customer story", "evidence
+  tiers", "number lock", "make the numbers match across assets" or "check the data points before we
   publish". Not for market sizing or a line by line fact check.
 ---
 

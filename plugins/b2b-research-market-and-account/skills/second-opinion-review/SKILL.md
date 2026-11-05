@@ -1,20 +1,17 @@
 ---
 name: second-opinion-review
 description: >
-  Judges another model's or a colleague's critique of a draft, or a draft
-  another model wrote, point by point, and ends with one final version, not a
-  list. Each point goes through three filters in order (factual accuracy, the
-  stated objectives, tone and machine sounding text) and gets a verdict:
-  accept, accept with edit, modify or deny, with a reason. Facts are checked
-  against an opened source before they are applied; a second model's draft is
-  judged first on its purpose; the review challenges the user's view too and
-  says which review is sharper. When the purpose is unclear it asks first,
-  then offers options. Use when someone says "another AI assistant reviewed
-  my draft", "another AI gave this feedback", "which
-  suggestions should I take", "second opinion", "is this critique right",
-  "take the logical ones and reject the rest", "give me the final output",
-  "another AI assistant wrote this", "critique my plan" or "why are you
-  agreeing with me". Not for a plain fact check or a research asset.
+  Helps you decide which points of another model's or a colleague's critique to take, and ends with
+  one final version, not a list. You give it the draft and the critique, or a draft another model
+  wrote. You get a verdict on each point (accept, accept with edit, modify or deny) with a reason,
+  after three filters in order: factual accuracy, your stated objectives, then tone and machine
+  sounding text. Facts are checked against an opened source before they are applied, and the review
+  challenges your view too and says which review is sharper. If the purpose is unclear it asks
+  first. Use when someone says "another AI assistant reviewed my draft", "another AI gave this
+  feedback", "which suggestions should I take", "second opinion", "is this critique right", "take
+  the logical ones and reject the rest", "give me the final output", "another AI assistant wrote
+  this", "critique my plan" or "why are you agreeing with me". Not for a plain fact check or a
+  research asset.
 ---
 
 # Second Opinion Review

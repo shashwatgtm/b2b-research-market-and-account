@@ -1,6 +1,6 @@
 # B2B Research: Market and Account
 
-Four research skills for B2B teams who need numbers and account facts they can defend: product marketers, strategy leads, founders, CMOs, ABM and demand generation teams, SDR managers, content leads, and anyone who reviews drafts written with AI. Every skill keeps sourced facts apart from assumptions, says plainly what it could not check, and never fills a gap with an invented figure, quote or company. This version does not size markets or build TAM, SAM and SOM.
+Four research skills for B2B teams who need numbers and account facts they can defend: product marketers, strategy leads, founders, CMOs, ABM and demand generation teams, SDR managers, content leads, and anyone who reviews drafts written with AI. They help you decide which accounts to target, which numbers you can publish, whether a draft is safe to send and which critique points to accept. Every skill keeps sourced facts apart from assumptions, says plainly what it could not check, and never fills a gap with an invented figure, quote or company. This version does not size markets or build TAM, SAM and SOM.
 
 Version 1.0.6.
 

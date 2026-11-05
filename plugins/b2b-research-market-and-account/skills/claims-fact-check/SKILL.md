@@ -1,19 +1,16 @@
 ---
 name: claims-fact-check
 description: >
-  Fact checks every claim in a B2B post, deck, release, report or email before
-  it goes out: a claims register, the source opened for each claim, only what
-  is wrong fixed with the smallest change, and each claim kept only as strong
-  as its source. Sources the user names beat the skill's search; a named
-  source that fails is said and its cell left blank. Screenshot mode maps
-  every claim to an image and names the image that would prove each unproved
-  claim; every image gets a personal data check. AI visibility claims are
-  tested on the live engine or left unverified. Every claim is checked, and
-  every output gets a date and weekday check. Use when someone says "fact
-  check this", "verify these numbers", "are these claims right", "check this
-  before I post", "check the data points", "check against the screenshots",
-  "any PII in these images", "is this date right", "is this claim too strong",
-  "can we say this" or "does another AI assistant really recommend us". Not for building a research asset or
+  Helps you decide whether a B2B post, deck, release, report or email is safe to send. You give it
+  the draft, and your sources or screenshots if you have them. You get a claims register with the
+  source opened for each claim, each claim kept only as strong as its source, the smallest fix for
+  what is wrong, and a date and weekday check. Sources you name come first; one that fails is said
+  and left blank. Screenshot mode maps each claim to an image, names the image that would prove an
+  unproved claim and checks every image for personal data. AI visibility claims are tested on the
+  live engine or left unverified. Use when someone says "fact check this", "verify these numbers",
+  "are these claims right", "check this before I post", "check the data points", "check against the
+  screenshots", "any PII in these images", "is this date right", "is this claim too strong", "can we
+  say this" or "does another AI assistant really recommend us". Not for building a research asset or
   judging a whole critique.
 ---
 
