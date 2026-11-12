@@ -19,7 +19,7 @@ Before building or auditing a list, the skill needs the user's ideal customer pr
 
 ## Auditing a list
 For each account, check and report (never remove silently):
-- Duplicate or alias (the same company under two names or legal suffixes). The script flags possible duplicates for a human to confirm.
+- Duplicate or alias (the same company under two names or legal suffixes). The account list check (references/account-list-check-method.md) flags possible duplicates for a human to confirm.
 - Fit against the must haves and disqualifiers, with the evidence.
 - Still trading under that name (merged, acquired or renamed, from the account's own pages or filings).
 - Region and vertical inside the user's restriction.
@@ -36,4 +36,4 @@ Report: kept, removed (with reason), unsure (with what would settle it).
 - Periods: when a field is periodic (results, headcount), state the period; use the latest published period, and a newer one only "if it has been published".
 
 ## Coverage rule
-Every account on the user's list gets rows, including "not found" rows. Before saying the work is done, run scripts/account_list_check.py and show the coverage line; it also reports an empty list, a table with no rows, a verified or unverified row with no value (a value of N/A, NA, none, unknown, TBD or a lone dash counts as no value), and a row with no field name. If time or tools run out, say exactly which accounts are not covered yet. For enrichment across many accounts, show the source tally (source-and-verification.md) with the two lists.
+Every account on the user's list gets rows, including "not found" rows. Before saying the work is done, run the account list check per references/account-list-check-method.md (with your own code execution when it is available; by hand otherwise) and show the coverage line; it also reports an empty list, a table with no rows, a verified or unverified row with no value (a value of N/A, NA, none, unknown, TBD or a lone dash counts as no value), and a row with no field name. If time or tools run out, say exactly which accounts are not covered yet. For enrichment across many accounts, show the source tally (source-and-verification.md) with the two lists.

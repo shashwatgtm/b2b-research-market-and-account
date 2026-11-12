@@ -42,7 +42,7 @@ Detect these before checking. If a signal is missing and it changes the check, a
 - Connected (web search or fetch): open each source; for AI visibility claims, run the live query only if a tool can reach that engine.
 - Manual (no web): check only against what the user pasted or attached; a claim that matches pasted text is "as pasted, not yet checked", never verified; everything else is "not checked in this session", with the source to open later.
 - Mixed: report each failed fetch by URL; those claims stay unverified.
-- Code execution available: run scripts/claims_scan.py to seed the register and for the date, weekday and dash checks. Not available: list claims by reading, check weekdays by calendar, and say the checks were manual.
+- Code execution available: run the claims scan per references/claims-scan-method.md with your own code execution to seed the register and for the date, weekday and dash checks. Not available: work the scan out by hand per the same method (list claims by reading, check weekdays by calendar) and say "counted by hand per the method".
 
 **Urgency:**
 - Normal: full register, corrected text, checks.
@@ -77,7 +77,7 @@ Tie breakers:
 
 **Step 2. Seed the register.**
 - Input: the text.
-- Action: run `python3 scripts/claims_scan.py text.txt --year <current year>` (use `python` where `python3` is not found, as on Windows); then read the text for claims with no digit (titles, acquisitions, product facts, AI visibility claims, predictions and motives given to a named company or person) and add them.
+- Action: run the claims scan per references/claims-scan-method.md (with your own code execution when it is available; by hand otherwise), with the current year; then read the text for claims with no digit (titles, acquisitions, product facts, AI visibility claims, predictions and motives given to a named company or person) and add them.
 - Output: the numbered claim list.
 - Failure mode: a claim missed because it has no number. Read every sentence.
 
@@ -107,7 +107,7 @@ Tie breakers:
 
 **Step 7. Apply the fixes.**
 - Input: the register.
-- Action: change only the wrong words; keep everything else exactly; carry every fix into the corrected text; re-run `claims_scan.py` on the corrected text for dates, weekdays and dashes; run the short voice check (references/voice-check-short.md) on any words the skill wrote.
+- Action: change only the wrong words; keep everything else exactly; carry every fix into the corrected text; run the claims scan (references/claims-scan-method.md) again on the corrected text for dates, weekdays and dashes; run the short voice check (references/voice-check-short.md) on any words the skill wrote.
 - Output: the corrected text with changes marked, or the changed lines only if asked.
 - Failure mode: rewriting the whole text or removing parts the user did not ask to change.
 
@@ -136,7 +136,7 @@ Unicommerce is used only as an example company. The draft is hypothetical. Facts
 
 User input (hypothetical): "Fact check this before I post: 'Unicommerce grew revenue 20.2% to ₹51.3 crore in Q1 FY27 and now serves 10,000 clients. It is India's largest e-commerce SaaS platform. Results came out on Wednesday, 13 August 2026.'"
 
-Scan (scripts/claims_scan.py --year 2026):
+Scan (references/claims-scan-method.md, current year 2026):
 ```
 Claims to check: 3
   C1 [money, percentage, number] Unicommerce grew revenue 20.2% to ₹51.3 crore in Q1 FY27 and now serves 10,000 clients.
@@ -235,7 +235,7 @@ Draft: "1 in 7 cyber attacks in India hits a factory." Source: "3. Engineering &
 4. If unsure which claim the user means or which source governs, ask once rather than guess.
 5. Never fabricate sources, statistics, names, dates, quotes or money amounts.
 6. Use "[User to add: ...]" wherever a fact is missing, and list each under open items.
-7. Report real errors (a failed fetch, a page that did not render, a script that did not run). Never give fallback, mock, dummy or simulated data.
+7. Report real errors (a failed fetch, a page that did not render, a check that could not be run). Never give fallback, mock, dummy or simulated data.
 8. Domain rule: a named source that fails leaves its cell blank; nothing is filled from memory or another source without the user's word.
 9. Domain rule: a claim is never written stronger than its source (no rounding up, no superlative the source does not make, no present tense on an old figure).
 10. Domain rule: facts are stated from the images only in screenshot mode, and every image gets the personal data check.
@@ -263,4 +263,4 @@ Draft: "1 in 7 cyber attacks in India hits a factory." Source: "3. Engineering &
 - references/source-strength.md: source order, the named source rule, the strength wording table, recency, like for like, counts, dates and names.
 - references/screenshot-and-personal-data.md: screenshot mode, the personal data checklist, AI visibility claims.
 - references/voice-check-short.md: the voice check for any words the skill writes.
-- scripts/claims_scan.py: claim list, unnamed sources, weekday and year checks, dashes, banned words with --tone. Run: `python3 scripts/claims_scan.py text.txt --year <current year> [--tone]` (use `python` where `python3` is not found, as on Windows). Its tests are kept in the plugin's build files and are not shipped.
+- references/claims-scan-method.md: the claims scan as a fixed method: claim list, unnamed sources, weekday and year checks, dashes, banned words with tone on, with the exact printed lines and worked examples.

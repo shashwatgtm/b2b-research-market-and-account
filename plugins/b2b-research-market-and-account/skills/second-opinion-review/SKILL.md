@@ -44,7 +44,7 @@ Detect these before judging. If the purpose is missing, ask first (references/im
 - Connected (web search or fetch): open the source for every factual point before applying it.
 - Manual (no web, or the user asks to work only from what they shared): open no outside source; a factual point settled only by the paste is "as pasted, not yet checked", never verified; factual points the paste cannot settle are "not checked in this session" and not applied as fact; the final version keeps the original wording on those points.
 - Mixed: failed fetches reported by URL; those points not applied as fact.
-- Code execution available: run scripts/claims_scan.py with --tone on the draft, the critique and the final version (claims to check, weekdays, dashes, banned words). Not available: check by reading and say so.
+- Code execution available: run the claims scan per references/claims-scan-method.md, with tone on, with your own code execution on the draft, the critique and the final version (claims to check, weekdays, dashes, banned words). Not available: work it out by hand per the same method and say "counted by hand per the method".
 
 **Urgency:**
 - Normal: questions if needed, verdict table, options if needed, final version.
@@ -83,7 +83,7 @@ Tie breakers:
 
 **Step 3. Filter 1: facts.**
 - Input: every factual claim in the points and in the draft.
-- Action: run `python3 scripts/claims_scan.py draft.txt --year <current year> --tone` (use `python` where `python3` is not found, as on Windows); report its output as printed (the claim ids, the types it gives, the lines and the counts): the scan prints a type such as "superlative", not the word that matched, so never name a word, a reason or a finding the output did not print; when a reason helps, check it yourself and write it as your own reading, not the script's. Open the source for each fact (references/fact-check-short.md); mark pass, fail or not checked. In Manual mode, including when the user asks to work only from what they shared, no outside source is opened or searched: a fact is "as pasted, not yet checked" or "not checked in this session" (platform mode). Say what a page shows only from the text the fetch returned: a detail the fetch did not return (a currency, a price, a date) is not stated as on the page. When describing items on a page (badges, awards, logos, ratings, a count of anything), count every instance in the fetched text and give that count; never write "the only", "one" or "none" unless the fetched text was read for every instance. A fetch that returns no body text (only a page title, or an error) is reported by URL as such; its facts stay "not checked in this session" and the page is not counted among the pages opened. An absence is written for the pages opened ("not found on the pages I opened: [pages]"), never as "has not been announced" or "none exists"; when a search was also run, it is named in the same line ("and not in a search for [query]"). When a page cannot be opened, run a web search for the wording needed from it before marking the point not checked; text taken from the results is labelled "from a search result; the page itself was not opened", also in the sources list, and a point resting on it is not applied as fact. A critique point that says something does not exist is applied only when an opened source states it. A word or character count stated anywhere in the answer comes from a count run in this session (for example `python3 -c "import sys; print(len(sys.argv[1].split()))" "<text>"` (use `python` where `python3` is not found, as on Windows)) and is shown with the text it counted; otherwise no count is stated, the answer says no count was run (for example, no code execution in this session), and a point that rests on a count is marked not checked.
+- Action: run the claims scan per references/claims-scan-method.md (with your own code execution when it is available; by hand otherwise), with the current year and tone on; report its output as printed (the claim ids, the types it gives, the lines and the counts): the scan prints a type such as "superlative", not the word that matched, so never name a word, a reason or a finding the output did not print; when a reason helps, check it yourself and write it as your own reading, not the scan's. Open the source for each fact (references/fact-check-short.md); mark pass, fail or not checked. In Manual mode, including when the user asks to work only from what they shared, no outside source is opened or searched: a fact is "as pasted, not yet checked" or "not checked in this session" (platform mode). Say what a page shows only from the text the fetch returned: a detail the fetch did not return (a currency, a price, a date) is not stated as on the page. When describing items on a page (badges, awards, logos, ratings, a count of anything), count every instance in the fetched text and give that count; never write "the only", "one" or "none" unless the fetched text was read for every instance. A fetch that returns no body text (only a page title, or an error) is reported by URL as such; its facts stay "not checked in this session" and the page is not counted among the pages opened. An absence is written for the pages opened ("not found on the pages I opened: [pages]"), never as "has not been announced" or "none exists"; when a search was also run, it is named in the same line ("and not in a search for [query]"). When a page cannot be opened, run a web search for the wording needed from it before marking the point not checked; text taken from the results is labelled "from a search result; the page itself was not opened", also in the sources list, and a point resting on it is not applied as fact. A critique point that says something does not exist is applied only when an opened source states it. A word or character count stated anywhere in the answer comes from a count run in this session (for example `python3 -c "import sys; print(len(sys.argv[1].split()))" "<text>"` (use `python` where `python3` is not found, as on Windows)) and is shown with the text it counted; otherwise no count is stated, the answer says no count was run (for example, no code execution in this session), and a point that rests on a count is marked not checked.
 - Output: the facts column.
 - Failure mode: applying a critique's fact because it sounds right.
 
@@ -113,7 +113,7 @@ Tie breakers:
 
 **Step 8. One final version.**
 - Input: the verdicts (and the chosen option).
-- Action: apply accepted, edited and modified points to the latest draft; keep locked lines and the user's intentional choices; a tone or voice rewrite keeps every source and citation the user's text carried and adds nothing in the user's voice that the user did not supply; put "[User to add: ...]" where only the user can supply a fact; re-run `claims_scan.py --tone` on the final version.
+- Action: apply accepted, edited and modified points to the latest draft; keep locked lines and the user's intentional choices; a tone or voice rewrite keeps every source and citation the user's text carried and adds nothing in the user's voice that the user did not supply; put "[User to add: ...]" where only the user can supply a fact; run the claims scan (references/claims-scan-method.md, tone on) again on the final version.
 - Output: one complete final version.
 - Failure mode: ending with a list of suggestions.
 
@@ -140,7 +140,7 @@ User input (hypothetical): "My newsletter paragraph for IT heads at mid sized co
 
 Purpose as read: help IT heads judge a suite vendor; channel, a newsletter.
 
-Scan of your draft (scripts/claims_scan.py --tone): one claim sentence to check (C1, the first sentence); one dash, after "55+ applications"; no wrong dates.
+Scan of your draft (references/claims-scan-method.md, tone on): one claim sentence to check (C1, the first sentence); one dash, after "55+ applications"; no wrong dates.
 
 | # | Point | Facts | Objectives | Tone | Verdict | Reason |
 |---|---|---|---|---|---|---|
@@ -233,7 +233,7 @@ Final version of your line: "Unicommerce reported revenue of ₹51.4 crore for t
 4. If unsure what a critique point means, ask once rather than guess.
 5. Never fabricate sources, statistics, names, dates, quotes or money amounts.
 6. Use "[User to add: ...]" wherever a fact only the user has is missing.
-7. Report real errors (a failed fetch, an unreadable paste, a script that did not run). Never give fallback, mock, dummy or simulated data.
+7. Report real errors (a failed fetch, an unreadable paste, a check that could not be run). Never give fallback, mock, dummy or simulated data.
 8. Domain rule: a critique's factual claim is applied only after its source is opened; an unchecked fact keeps the original wording.
 9. Domain rule: the review never ends with only a list; it ends with one final version.
 10. Domain rule: agreement is a result of the filters, never a default; when the user's view fails a filter, say so.
@@ -241,7 +241,7 @@ Final version of your line: "Unicommerce reported revenue of ₹51.4 crore for t
 12. Never give a reason, motive or condition the user did not give (for example "client NDA" when the user only said the customer cannot be named): write what the user said, or leave the reason out.
 13. "Verified" only when a source was opened in this session (a fetched page, a connector result); a fact that rests only on text the user pasted or attached is written "as pasted, not yet checked".
 14. Domain rule: never state a word count, a character count or what a page shows without the count run or the fetched text behind it; never turn "not on the pages I opened" into "does not exist"; a count of items on a page (badges, awards, logos) is every instance in the fetched text, never "the only one" without that check.
-15. Domain rule: a script's result is reported as printed (its ids, types, lines and counts); never a matched word, a reason or a finding the output did not print. A reason the reviewer adds is checked separately and labelled as the reviewer's reading, not the script's.
+15. Domain rule: the scan's result is reported as printed (its ids, types, lines and counts); never a matched word, a reason or a finding the output did not print. A reason the reviewer adds is checked separately and labelled as the reviewer's reading, not the scan's.
 16. One fetch, or one summary of a fetch, is never proof that something is absent: write "not found on the pages I opened: [the pages]", and name any search run, never that a site, a source or the market lacks it. When web tools are available and a page cannot be opened, run a web search for the wording needed from it (the line, the figure, the title) before writing a placeholder, and label what the results give "from a search result; the page itself was not opened"; such text is never called verified. A point that rests on a search result is not applied as fact.
 17. Never give a gender to a person known only by a role or a placeholder (the CTO, a panelist, the head of IT, [Name]): write the role, the placeholder or "they".
 
@@ -262,4 +262,4 @@ Final version of your line: "Unicommerce reported revenue of ₹51.4 crore for t
 - references/improvement-loop.md: questions first, then options, then one final version.
 - references/fact-check-short.md: the short fact check for filter 1.
 - references/voice-check-short.md: the word and pattern list for filter 3.
-- scripts/claims_scan.py: claims to check, weekday and year checks, dashes, and banned words with --tone. Run: `python3 scripts/claims_scan.py text.txt --year <current year> --tone` (use `python` where `python3` is not found, as on Windows). Its tests are kept in the plugin's build files and are not shipped.
+- references/claims-scan-method.md: the claims scan as a fixed method: claims to check, weekday and year checks, dashes, and banned words with tone on, with the exact printed lines and worked examples.

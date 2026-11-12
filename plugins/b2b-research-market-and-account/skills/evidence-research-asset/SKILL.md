@@ -4,9 +4,9 @@ description: >
   Helps a B2B team decide which numbers it can publish and turn them into research content that
   holds up. For product marketers, content leads and strategy teams. You give it published reports,
   surveys or your own data. You get data led post series, briefs, reports, decks, benchmark studies
-  (scored by a fixed method and script), white paper outlines or case studies where every number
+  (scored by a fixed method), white paper outlines or case studies where every number
   cites its source, is checked against the publisher's topline and is locked across every asset by
-  script, plus a three lens white paper review. The story comes first and changes when the data does
+  a fixed check, plus a three lens white paper review. The story comes first and changes when the data does
   not fit; it never invents a metric or quote. Use when someone says "turn this report into posts",
   "research report", "research brief", "data led content", "benchmark study", "score these
   companies", "white paper", "review my white paper", "case study", "customer story", "evidence
@@ -32,7 +32,7 @@ Detect these before building. If a signal is missing and it changes the asset, a
 |---|---|---|
 | Content or product marketing lead | "turn this report into", "post series", "one pager" | Topline check, lock sheet, story arc, one theme per post or page, platform limits checked. |
 | Founder or CXO | "show our research capability", "board brief" | Length follows the reader (ask); thesis first; method and limits stated plainly. |
-| Researcher running a benchmark | "score these companies", "benchmark" | Benchmark rules: cuts and sample first, fixed scoring method, scripted scoring, evidence tiers, ungated data. |
+| Researcher running a benchmark | "score these companies", "benchmark" | Benchmark rules: cuts and sample first, fixed scoring method, scoring per references/benchmark-score-method.md, evidence tiers, ungated data. |
 | Customer marketing | "case study", "customer story" | Case study format with permission, placeholders and asks; quotes approved by the person quoted. |
 | Reviewer of someone else's paper | "review this white paper", "what should I fix" | Three lens review; fixes ordered by the fastest credibility win; the paper is not rewritten unless asked. |
 
@@ -42,7 +42,7 @@ Detect these before building. If a signal is missing and it changes the asset, a
 - Connected (web search or fetch): open the publisher's own document for every statistic; open each publishing platform's help page for its limits.
 - Manual (no web, or "only use the attached documents"): work inside the attachments only; anything outside is marked "not in the agreed sources"; platform limits are asked of the user.
 - Mixed: report each failed fetch by URL; the affected numbers stay off the lock sheet.
-- Code execution available: run scripts/number_lock.py on every asset and scripts/benchmark_score.py for benchmarks. Not available: compare by hand and say the checks were manual.
+- Code execution available: run the number lock check per references/number-lock-method.md on every asset and score benchmarks per references/benchmark-score-method.md, with your own code execution. Not available: work both out by hand per the same methods and say "counted by hand per the method".
 
 **Urgency:**
 - Normal: scope, topline check, lock sheet, story, build, checks.
@@ -99,14 +99,14 @@ Tie breakers:
 
 **Step 6. Benchmark mode (when scoring companies).**
 - Input: the cuts the study will report, the criteria, the companies.
-- Action: follow references/benchmark-rules.md: size the sample to the cuts, fix the criteria first, verify each company by search, record evidence with tiers, score with `python3 scripts/benchmark_score.py --criteria criteria.csv --evidence evidence.csv [--min-per-cut N] [--publishable-only]` (use `python` where `python3` is not found, as on Windows).
+- Action: follow references/benchmark-rules.md: size the sample to the cuts, fix the criteria first, verify each company by search, record evidence with tiers, score per references/benchmark-score-method.md (with your own code execution when it is available; by hand otherwise), with the user's minimum per cut and publishable only when asked.
 - Output: the score table and the low base cuts.
 - Failure mode: a score from memory or an estimate; a scoring method changed mid study without rescoring.
 
 **Step 7. Number lock check.**
 - Input: the text of every asset and the lock sheet.
-- Action: run `python3 scripts/number_lock.py --lock lock.csv <assets>` (use `python` where `python3` is not found, as on Windows); fix every unlocked number, near match and wrong weekday; run it again. The script matches values, not bases, so the base check stays with step 2.
-- Output: the script output showing no problems, or the remaining problems listed.
+- Action: run the number lock check per references/number-lock-method.md (with your own code execution when it is available; by hand otherwise) on every asset; fix every unlocked number, near match and wrong weekday; run it again. The check matches values, not bases, so the base check stays with step 2.
+- Output: the check's printed output showing no problems, or the remaining problems listed.
 - Failure mode: "numbers match" said without the output.
 
 **Step 8. Whitepaper review (when reviewing a paper).**
@@ -157,7 +157,7 @@ Lock sheet: L1 265.52 million (p. 12); L2 8 million endpoints (p. 4); L3 3.79 mi
 
 Beat sheet: Myth: "factories are rarely targeted", as your sales team hears it from plant IT heads. Truth: L1 with L2. Dominance: L3, third in the report's industry list, with L4 and its base. Twist: L5, the top state, for readers with plants there. Verdict: what a plant IT head should check first; no new number.
 
-Number lock check on post 1 and your draft brief (scripts/number_lock.py):
+Number lock check on post 1 and your draft brief (references/number-lock-method.md):
 ```
 Asset: post1.md
   matched: 265.52 million (L1), 8 million (L2), 3.79 million (L3)
@@ -174,7 +174,7 @@ Lock rows used:
   L5 top state detections (Maharashtra) = 36.13 million: not used
 Result: problems found
 ```
-Fixes to your brief: "265 million attacks" becomes "265.52 million detections"; "14.22% of all detections hit manufacturing" becomes "engineering and manufacturing accounted for 3.79 million detections, 14.22 percent of the detections in the report's industry breakdown" (the script matched 14.22 percent, but the base was wrong, which the topline check caught); the 91 percent line comes out until it is found in the report; the date becomes "Tuesday, 9 December 2025".
+Fixes to your brief: "265 million attacks" becomes "265.52 million detections"; "14.22% of all detections hit manufacturing" becomes "engineering and manufacturing accounted for 3.79 million detections, 14.22 percent of the detections in the report's industry breakdown" (the check matched 14.22 percent, but the base was wrong, which the topline check caught); the 91 percent line comes out until it is found in the report; the date becomes "Tuesday, 9 December 2025".
 
 Post 1 (draft): "Between October 2024 and September 2025, the publisher's telemetry recorded 265.52 million detections across over 8 million endpoints in India. Engineering and manufacturing came third in its industry list, with 3.79 million detections. If your plant network still sits outside your security team's view, which system would you check first?" Source line in the first comment: the report, pages 12, 4 and 39.
 
@@ -226,7 +226,7 @@ No company is named; the rows are the shape of the files only.
 
 criteria.csv: `criterion_id,question,points` with rows such as `Q1,Publishes a security or trust page on its own site,2`.
 evidence.csv: `company,criterion_id,answer,source,tier,cut` with one row per company and criterion, each "yes" with a public link.
-Run: `python3 scripts/benchmark_score.py --criteria criteria.csv --evidence evidence.csv --min-per-cut 25` (use `python` where `python3` is not found, as on Windows) (the minimum per cut is the user's choice). Every cut below it is printed as "base too low to report this cut"; scores print in the same order on every run.
+Score per references/benchmark-score-method.md with a minimum per cut of 25 (the minimum per cut is the user's choice). Every cut below it is printed as "base too low to report this cut"; scores print in the same order on every run.
 
 ## 6. Edge Case Handling
 
@@ -262,15 +262,15 @@ Run: `python3 scripts/benchmark_score.py --criteria criteria.csv --evidence evid
 
 1. Never invent a statistic, metric, sample size, result, quote or case. Surface what the sources say or leave a placeholder.
 2. Never assume the reader, channel or source boundary; detect them or ask.
-3. Never claim a number was checked, locked or consistent unless the topline table or the script output shows it.
+3. Never claim a number was checked, locked or consistent unless the topline table or the check's printed output shows it.
 4. If unsure what a published figure's base is, ask once or say "base not stated" rather than guess.
 5. Never fabricate sources, statistics, names, dates, quotes or money amounts.
 6. Use "[User to add: ...]" or "[Customer to confirm: ...]" wherever a fact is missing, and list each under open items.
-7. Report real errors (a failed fetch, an unreadable file, a script that did not run). Never give fallback, mock, dummy or simulated data.
+7. Report real errors (a failed fetch, an unreadable file, a check that could not be run). Never give fallback, mock, dummy or simulated data.
 8. Domain rule: never print a number the publisher did not print (a sum of rows, a recomputed share) as a finding; arithmetic is for checking only. The one exception is the user's own raw survey or study rows (references/topline-and-number-lock.md section 2a): a result derived from them goes on the lock sheet with its base and how it was counted.
 9. Domain rule: never use the publisher's figure under a different label (detections are not attacks; revenue from operations is not revenue).
 10. Domain rule: a case study quote is written or approved by the person quoted; never a sample quote that could pass as real.
-11. Domain rule: benchmark scores come only from the fixed scoring method and the script; never an estimated or remembered score, and never an outside proprietary scoring framework the user does not own.
+11. Domain rule: benchmark scores come only from the fixed scoring method (references/benchmark-score-method.md); never an estimated or remembered score, and never an outside proprietary scoring framework the user does not own.
 12. Never give a reason, motive or condition the user did not give (for example "client NDA" when the user only said the customer cannot be named): write what the user said, or leave the reason out.
 13. "Verified" only when a source was opened in this session (a fetched page, a connector result); a fact that rests only on text the user pasted or attached is written "as pasted, not yet checked".
 14. One fetch, or one summary of a fetch, is never proof that something is absent: write "not found on the pages I opened: [the pages]", and name any search run, never that a site, a source or the market lacks it. When web tools are available and a page cannot be opened, run a web search for the wording needed from it (the line, the figure, the title) before writing a placeholder, and label what the results give "from a search result; the page itself was not opened"; such text is never called verified. A figure found only in a search result never goes on the lock sheet.
@@ -293,11 +293,11 @@ Run: `python3 scripts/benchmark_score.py --criteria criteria.csv --evidence evid
 ## Files this skill uses
 - references/topline-and-number-lock.md: scope and the source log, the topline check, the user's own survey rows (2a), findings without numbers (2b), the lock sheet, the check, staged release, disclaimers.
 - references/story-arc.md: myth, truth, dominance, twist, verdict.
-- references/benchmark-rules.md: sample and cuts, fixed scoring method, scripted scoring, search verified companies, evidence tiers, ungated data.
+- references/benchmark-rules.md: sample and cuts, fixed scoring method, scoring the same way every run, search verified companies, evidence tiers, ungated data.
 - references/whitepaper-outline.md: the white paper outline with asks.
 - references/case-study-format.md: the case study format with placeholders and approved quotes.
 - references/whitepaper-review.md: the three lens review and the fix order.
 - references/platform-limits.md: how to check paste and render limits.
 - references/voice-check-short.md: the voice check for every asset.
-- scripts/number_lock.py: numbers in assets against the lock sheet (a minus sign makes a number negative, a four digit count is not skipped as a year), near matches, weekdays. Run: `python3 scripts/number_lock.py --lock lock.csv asset1.md asset2.md [--allow-small N]` (use `python` where `python3` is not found, as on Windows). Its tests are kept in the plugin's build files and are not shipped.
-- scripts/benchmark_score.py: repeatable benchmark scores; it reports points that are not finite, a criterion id used twice, no criteria or no evidence rows; --json is strict JSON with the tiers in one fixed order. Run: `python3 scripts/benchmark_score.py --criteria criteria.csv --evidence evidence.csv [--min-per-cut N] [--publishable-only]` (use `python` where `python3` is not found, as on Windows). Its tests are kept in the plugin's build files and are not shipped.
+- references/number-lock-method.md: the number lock check as a fixed method: numbers in assets against the lock sheet (a minus sign makes a number negative, a four digit count is not skipped as a year), near matches, weekdays, with the exact printed lines and worked examples.
+- references/benchmark-score-method.md: repeatable benchmark scores as a fixed method; it reports points that are not finite, a criterion id used twice, no criteria or no evidence rows; the JSON form is strict JSON with the tiers in one fixed order.

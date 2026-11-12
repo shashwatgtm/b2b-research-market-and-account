@@ -1,7 +1,7 @@
 # The claims register
 
 ## What counts as a claim
-Every statement a reader could check: a number, money amount, percentage, date or weekday, a name or title, a quote, a superlative ("first", "only", "largest", "#1", "leading"), who built, owns, wrote or won something, a product fact (a feature, a limit, a price, a plan), a comparison, an attribution ("according to"), and any statement about what an AI engine says or recommends. scripts/claims_scan.py seeds the list; read the text as well, because a claim can sit in a sentence with no digit ("the company was acquired").
+Every statement a reader could check: a number, money amount, percentage, date or weekday, a name or title, a quote, a superlative ("first", "only", "largest", "#1", "leading"), who built, owns, wrote or won something, a product fact (a feature, a limit, a price, a plan), a comparison, an attribution ("according to"), and any statement about what an AI engine says or recommends. The claims scan (references/claims-scan-method.md) seeds the list; read the text as well, because a claim can sit in a sentence with no digit ("the company was acquired").
 
 A prediction, a guess about why a named company or person acted, or a "could this be" question about them is not a fact, and it is never written as a finding. In the text a prediction or a "could this be" question is labelled as the writer's view, or cut; a motive is never given to a named company or person, even as the writer's view, without a source that states it. Each one gets a register row with the verdict "View, not a fact".
 
@@ -40,7 +40,7 @@ Never write "all verified", "100% verified", "0% hallucination", "all links work
 - Carry every correction into the deliverable: the final text must contain the fixes, not just the register.
 
 ## After fixing
-- Run the date and weekday check on the corrected text (scripts/claims_scan.py --year <current year>).
+- Run the date and weekday check on the corrected text (the claims scan in references/claims-scan-method.md, with the current year).
 - For a returning user, compare with the earlier approved version: flag every number, name, title, date, contact detail and definition that changed, and every earlier fix that is missing.
 - If the text has several assets (a post, a deck, a page), the same figure must be written the same way in each; list any asset that still differs.
 - No headline or opening line may claim more than the corrected body supports.

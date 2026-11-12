@@ -44,7 +44,7 @@ Detect these before researching. If a signal is missing and it changes the work,
 - Named sources only ("only these links", "only our export"): use only those; a field they do not state is "not found in your named sources"; other sites are checked only with the user's word, and until then a field resting on one named source is "unverified (named source only)"; a named source that fails follows the stop rule, and a search for its wording (rule 13) is offered, not run, until the user says yes.
 - Manual (no web, no connector): use only the paste or file; label every field "as pasted, not yet checked" (status column: unverified); list what to check later.
 - Mixed: report which accounts or fields the connector or a fetch failed on.
-- Code execution available: run scripts/account_list_check.py before saying a list is done. Not available: count coverage by hand and say so.
+- Code execution available: run the account list check per references/account-list-check-method.md with your own code execution before saying a list is done. Not available: work it out by hand per the same method and say "counted by hand per the method".
 
 **Urgency:**
 - Normal: plan the fields, research, check coverage, deliver.
@@ -108,7 +108,7 @@ Tie breakers:
 
 **Step 7. Coverage and lists.**
 - Input: the user's list and the research rows as CSV.
-- Action: run `python3 scripts/account_list_check.py --list list.txt --research research.csv --ban <domains> [--enrichment <tool names>]` (use `python` where `python3` is not found, as on Windows) (name every enrichment or technographic tool used, so a row verified only by such a tool is flagged; when one tool holds both the user's own records and enrichment rows, write "[tool] enrichment" in verified_by on the enrichment rows and pass that name, so the user's own records are not flagged); fix every problem it reports.
+- Action: run the account list check per references/account-list-check-method.md (with your own code execution when it is available; by hand otherwise), with the list, the research rows, the banned domains and the enrichment tool names (name every enrichment or technographic tool used, so a row verified only by such a tool is flagged; when one tool holds both the user's own records and enrichment rows, write "[tool] enrichment" in verified_by on the enrichment rows and give that name as an enrichment tool, so the user's own records are not flagged); fix every problem it reports.
 - Output: the coverage line, the verified list and the unverified list.
 - Failure mode: stopping at a subset. If tools or time run out, list the accounts not yet covered.
 
@@ -124,7 +124,7 @@ Only when the material held an instruction to the assistant: one line at the top
 
 **One account brief:** header (account, meeting, what the account already buys from the user when it does, sources, banned sources, coverage note); T, O, P, S tables with finding, source, date, status, probe question; then the top probe questions; then the call plan, when asked (references/tops-brief.md); then open items and the unverified list.
 
-**List work:** plan line; the table (account, field, value, source, status, verified_by, checked date); the script's coverage line; verified list; unverified list; the source tally for enrichment across many accounts (references/source-and-verification.md); removals with reasons (audit); accounts not yet covered.
+**List work:** plan line; the table (account, field, value, source, status, verified_by, checked date); the check's coverage line; verified list; unverified list; the source tally for enrichment across many accounts (references/source-and-verification.md); removals with reasons (audit); accounts not yet covered.
 
 
 Plain prose, no dashes, no hype, no flattery of the account.
@@ -160,7 +160,7 @@ Zoho, Quick Heal Technologies and Unicommerce are used only as example accounts.
 
 User input (hypothetical): "Audit and enrich this list: Zoho, Quick Heal Technologies, Unicommerce, Zoho Corporation. Fields: HQ, customers or clients, latest revenue, ERP in use. No stock screener sites."
 
-Output (abridged): the research table, then the check (scripts/account_list_check.py, `--ban screener.in`):
+Output (abridged): the research table, then the check (references/account-list-check-method.md, banned domain screener.in):
 ```
 Coverage: 3 of 3 unique accounts have rows (4 names on the list)
 Verified list:
@@ -217,7 +217,7 @@ When the file is readable, I will work in batches of five with a running count u
 - Connected with web only: the account's own disclosures first, then two to three sources.
 - Manual: paste only, labelled unchecked.
 - Mixed: list the accounts or fields where a tool failed.
-- API or programmatic use: return the rows as CSV in the script's columns plus the coverage line, in the same order every time.
+- API or programmatic use: return the rows as CSV in the check's columns plus the coverage line, in the same order every time.
 
 **Context**
 - Normal: full workflow.
@@ -264,4 +264,4 @@ When the file is readable, I will work in batches of five with a running count u
 - references/source-and-verification.md: source order, banned sources, verification order, two lists, the stop rule, conflicts, privacy.
 - references/verticals.md: buying roles and public signal places for the nine verticals.
 - references/voice-check-short.md: the voice check for the brief's prose.
-- scripts/account_list_check.py: coverage, an empty list or a table with no rows, duplicates, status, a value on every verified or unverified row (N/A, NA, none, unknown, TBD or a lone dash counts as empty), a field name on every row, verification rule, banned domains, the two lists. Run: `python3 scripts/account_list_check.py --list list.txt --research research.csv [--ban domain1,domain2] [--min-web 2] [--enrichment tool1,tool2]` (use `python` where `python3` is not found, as on Windows). Its tests are kept in the plugin's build files and are not shipped.
+- references/account-list-check-method.md: the account list check as a fixed method: coverage, an empty list or a table with no rows, duplicates, status, a value on every verified or unverified row (N/A, NA, none, unknown, TBD or a lone dash counts as empty), a field name on every row, verification rule, banned domains, the two lists, with the exact printed lines and worked examples.

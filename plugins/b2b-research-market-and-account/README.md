@@ -2,14 +2,14 @@
 
 Four research skills for B2B teams who need numbers and account facts they can defend: product marketers, strategy leads, founders, CMOs, ABM and demand generation teams, SDR managers, content leads, and anyone who reviews drafts written with AI. They help you decide which accounts to target, which numbers you can publish, whether a draft is safe to send and which critique points to accept. Every skill keeps sourced facts apart from assumptions, says plainly what it could not check, and never fills a gap with an invented figure, quote or company. This version does not size markets or build TAM, SAM and SOM.
 
-Version 1.0.6.
+Version 1.0.7.
 
 ## Skills
 
 **account-research** builds account lists that fit your ICP, audits and enriches lists in fixed fields, and writes a one account brief in TOPS order (technographics, organisation, person, situation) with a probe question for every finding. It uses your data connector first, then two to three web sources, returns verified and unverified lists, covers every account on your list, and stops when the source you named fails. The person block uses only the person's own public professional statements, each with link and date; personality notes are labelled as inferences from those statements, never facts; nothing on health, religion, politics, family, private life, home or personal contact details; for meeting preparation only.
 Example prompt: "Brief me on this account before Thursday's call with their head of IT."
 
-**evidence-research-asset** turns published reports and surveys into post series, briefs, reports and decks; runs benchmark studies with a fixed scoring method and scripted scoring; and drafts white paper outlines and case studies with placeholders where metrics and quotes are missing. Every number is checked against the publisher's own topline and locked across every asset by script. It also reviews a white paper in three lenses.
+**evidence-research-asset** turns published reports and surveys into post series, briefs, reports and decks; runs benchmark studies scored by a fixed method; and drafts white paper outlines and case studies with placeholders where metrics and quotes are missing. Every number is checked against the publisher's own topline and locked across every asset by a fixed check. It also reviews a white paper in three lenses.
 Example prompt: "Turn this threat report into a five post series and a one page brief for plant IT heads."
 
 **claims-fact-check** builds a claims register for a post, deck, release or email, opens the source for every claim, fixes only what is wrong, and keeps each claim only as strong as its source. It maps claims to screenshots, checks every image for personal data, tests AI visibility claims only on the live engine, and checks every date's weekday.
@@ -17,6 +17,10 @@ Example prompt: "Fact check this post before I publish it."
 
 **second-opinion-review** judges another model's or a colleague's critique point by point through three filters (facts, your stated objectives, tone), gives each point a verdict (accept, accept with edit, modify, deny), challenges your own view where the evidence says so, and ends with one final version.
 Example prompt: "Another AI assistant reviewed my draft. Which of its points should I take? Give me the final text."
+
+## What changed in 1.0.7
+
+- The plugin is now Markdown only. The four Python scripts are removed, and each is replaced by a written method in its skill's references folder (account-list-check-method.md, claims-scan-method.md, number-lock-method.md and benchmark-score-method.md) that gives the same coverage lines, claim lists, number checks and scores, line for line. Claude follows the method with its own code execution when it is available, and by hand otherwise.
 
 ## What changed in 1.0.6
 
@@ -55,9 +59,9 @@ In Claude Code:
 /plugin install b2b-research-market-and-account@b2b-research-market-and-account
 ```
 
-## What it fetches and runs
+## What it fetches
 
-The skills run inside Claude. When web search or fetch is available, they open only the pages a job needs: company filings and results releases, company websites, published reports, regulator and statistics pages, and the help pages of platforms you publish on. About people they read only a person's own public professional statements, for meeting preparation; never private or leaked sources and never sensitive personal details. Four small Python scripts (standard library only), each, do the checks that must be exact: account_list_check.py checks list coverage and sources, number_lock.py and benchmark_score.py lock numbers across assets and score benchmarks the same way every run, and claims_scan.py lists claims and checks dates, weekdays and dashes. The scripts read only the files or text you give them, use no network, and write no files. Nothing is published, scheduled or sent by these skills.
+The skills run inside Claude. When web search or fetch is available, they open only the pages a job needs: company filings and results releases, company websites, published reports, regulator and statistics pages, and the help pages of platforms you publish on. About people they read only a person's own public professional statements, for meeting preparation; never private or leaked sources and never sensitive personal details. The plugin contains no code. The checks that must be exact are written as methods in each skill's references folder: account-list-check-method.md checks list coverage and sources, number-lock-method.md and benchmark-score-method.md lock numbers across assets and score benchmarks the same way every run, and claims-scan-method.md lists claims and checks dates, weekdays and dashes. Claude follows them with the files or text you give it. Nothing is published, scheduled or sent by these skills.
 
 ## Examples
 
@@ -68,6 +72,8 @@ The worked examples in each skill use real companies (Unicommerce, Quick Heal Te
 This plugin sends no data to Helix GTM Consulting and runs no server. The plugin itself stores nothing: it keeps no account, no log and no copy of your work, and any file Claude writes for you goes only to your own working folder. About people, the skills read only a person's own public professional statements, each with link and date, for meeting preparation only; never health, religion, politics, family, private life, home or personal contact details. What you type into Claude is handled under your own Claude account terms.
 
 ## Security
+
+All four skills are Markdown instruction files with no code. The parts that must be exact (list coverage, the claim list and date checks, the number lock and the benchmark scores) are written as step by step methods in each skill's `references/` folder, which Claude follows with your files or text. Nothing is published, scheduled or sent.
 
 To report a security problem, email shashwat@gtmhelix.com with the subject "Security report: b2b-research-market-and-account". Please do not open a public issue for it.
 

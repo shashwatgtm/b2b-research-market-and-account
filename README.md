@@ -9,7 +9,11 @@ This plugin runs in Claude Code and Claude Cowork. The same skills are also bund
 - **claims-fact-check**: a claims register for every claim in a post, deck or release, fixes only what is wrong, screenshot mode, a personal data check on every image, and a date and weekday check.
 - **second-opinion-review**: another model's or a colleague's critique judged point by point through three filters (facts, your objectives, tone), four verdicts, and one final version.
 
-Version 1.0.6. More plugins by Helix GTM Consulting: https://tools.gtmhelix.com/plugins/
+Version 1.0.7. More plugins by Helix GTM Consulting: https://tools.gtmhelix.com/plugins/
+
+## What changed in 1.0.7
+
+- The plugin is now Markdown only. The four Python scripts are removed, and each is replaced by a written method in its skill's references folder (account-list-check-method.md, claims-scan-method.md, number-lock-method.md and benchmark-score-method.md) that gives the same coverage lines, claim lists, number checks and scores, line for line. Claude follows the method with its own code execution when it is available, and by hand otherwise.
 
 ## What changed in 1.0.6
 
@@ -65,9 +69,11 @@ The worked examples inside the skills use real companies (Unicommerce, Quick Hea
 
 ## Privacy
 
-This plugin sends no data to Helix GTM Consulting and runs no server. The plugin itself stores nothing: it keeps no account, no log and no copy of your work, and any file Claude writes for you goes only to your own working folder. The skills run inside Claude. When web tools are available, they open public pages such as company filings, company websites, published reports and platform help pages; they read about a person only through that person's own public professional statements, each with link and date, label any personality note as an inference, never collect health, religion, politics, family, private life, home or personal contact details, and use the result for meeting preparation only. The small Python scripts in the skills run on files or text you give them, use no network, and write no files. What you type into Claude is handled under your own Claude account terms.
+This plugin sends no data to Helix GTM Consulting and runs no server. The plugin itself stores nothing: it keeps no account, no log and no copy of your work, and any file Claude writes for you goes only to your own working folder. The skills run inside Claude. When web tools are available, they open public pages such as company filings, company websites, published reports and platform help pages; they read about a person only through that person's own public professional statements, each with link and date, label any personality note as an inference, never collect health, religion, politics, family, private life, home or personal contact details, and use the result for meeting preparation only. The skills contain no code: the checks that must be exact are written as methods in each skill's references folder, which Claude follows with the files or text you give it. What you type into Claude is handled under your own Claude account terms.
 
 ## Security
+
+All four skills are Markdown instruction files with no code. The parts that must be exact (list coverage, the claim list and date checks, the number lock and the benchmark scores) are written as step by step methods in each skill's `references/` folder, which Claude follows with your files or text. Nothing is published, scheduled or sent.
 
 To report a security problem, email shashwat@gtmhelix.com with the subject "Security report: b2b-research-market-and-account". Please do not open a public issue for it.
 

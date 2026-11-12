@@ -22,7 +22,7 @@ When a banned source was used, remove every field it filled, re-source from allo
 5. "Not found" when no allowed source opened in this session states the field; the notes name the pages opened and any search run, and the brief says "not found on the pages I opened", never that the account does not have it. Never "likely", never an inferred value.
 
 ## Two lists
-Every delivery ends with two lists: verified fields and unverified fields, per account, on a best effort basis. scripts/account_list_check.py prints both and the coverage line.
+Every delivery ends with two lists: verified fields and unverified fields, per account, on a best effort basis. The account list check (references/account-list-check-method.md) prints both and the coverage line.
 
 ## Source tally (list enrichment across many accounts)
 For list enrichment across many accounts, keep a tally per source: the fields it gave, the fields a second source confirmed, the fields where it disagreed with another source, and the fields it could not give. Show the tally with the two lists so the user can decide whether to drop or replace a weak source. A source is dropped only on the user's word, and its fields are then sourced again.
