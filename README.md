@@ -1,5 +1,7 @@
 # B2B Research: Market and Account
 
+By Helix GTM Consulting (https://gtmhelix.com), built by Shashwat Ghosh, Co-Founder and Fractional CMO.
+
 Research skills for B2B product marketers, founders, ABM, sales and content teams, built by Shashwat Ghosh, Helix GTM Consulting. They help you decide which accounts to target, which numbers you can publish, whether a draft is safe to send, and which points of another model's critique to accept. You give them companies, reports, drafts or a critique; you get account lists and briefs, research assets with every number sourced, a claims register, or one final reviewed version. This version does not size markets or build TAM, SAM and SOM.
 
 This plugin runs in Claude Code and Claude Cowork. The same skills are also bundled in the Helix GTM Suite for Gemini CLI and Antigravity: https://github.com/shashwatgtm/helix-gtm-suite
